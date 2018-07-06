@@ -1,0 +1,133 @@
+﻿@using MVCollapsePanel.Models
+@model IEnumerable<AccordionModel>
+
+<!-- Latest compiled and minified Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link href="~/Content/BSCustom.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".nav_link").click(function () {
+            //Custom attribute data_id is used to store the ID
+            //Get the ID
+            var id = $(this).attr("data_id");
+            $.ajax({
+                url: '@Url.Action("DisplayEmployees", "Accordion")',
+                type: "post",
+                dataType: "html",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ id: id }), //add parameter
+                success: function (data) {
+                    //success
+                    $('#ProductsDiv'+id).html(data); //populate the tab content.
+                },
+                error: function (data) {
+                    Console.log(data);
+                    alert("error");
+                }
+            });
+        });
+    });
+</script>
+<div class="container">
+    <div class="panel-group" id="accordion">
+        @foreach (AccordionModel item in Model)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href=#@item.Id>
+                            @item.Title
+                        </a>
+                    </h4>
+                </div>
+                <div id=@item.Id class="panel-collapse collapse">
+                    <div class="panel-body">
+                      @*  @item.Content*@
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" class="nav_link" data_id="1" href="#home"@item.Id>Home</a></li>
+                            <li><a data-toggle="tab" class="nav_link" data_id="2" href="#menu1"@item.Id>Menu 1</a></li>
+                            <li><a data-toggle="tab" class="nav_link" data_id="3" href="#menu2"@item.Id>Menu 2</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="home"@item.Id class="tab-pane fade in active">
+                                <h3>HOME</h3>
+                                <p>Some content.</p>
+                                <br />
+                                <div id="ProductsDiv1">
+                                </div>
+                            </div>
+                            <div id="menu1"@item.Id class="tab-pane fade">
+                                <h3>Menu 1</h3>
+                                <p>Some content in menu 1.</p><br />
+                                <div id="ProductsDiv2">
+                                </div>
+                            </div>
+                            <div id="menu2"@item.Id class="tab-pane fade">
+                                <h3>Menu 2</h3>
+                                <p>Some content in menu 2.</p><br />
+                                <div id="ProductsDiv3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+
+    
+
+
+        @*<div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            Collapsible Group Item #1
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            Collapsible Group Item #2
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                            Collapsible Group Item #3
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+
+    </div> <!-- end container -->
+<!-- Latest compiled and minified JavaScript -->
